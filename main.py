@@ -46,7 +46,7 @@ class Length:
         elif isinstance(other, int) or isinstance(other, float):
             second_operand = Length(other).length_in_meters()
         else:
-            raise TypeError("Inappropriate type of other argument!")
+            raise TypeError("Inappropriate type of right operand argument!")
         return Length(first_operand + second_operand, True)
     
     def __radd__(self, left_operand):
@@ -57,14 +57,14 @@ class Length:
         if isinstance(left_operand, int) or isinstance(left_operand, float):
             second_operand = Length(left_operand).length_in_meters()
         else:
-            raise TypeError("Inappropriate type of other argument!")
+            raise TypeError("Inappropriate type of left operand argument!")
         return Length(first_operand + second_operand, True)
     
     def __sub__(self, other):
         """
             Support for subtracting the number from the length.
             When only the number without units is specified we
-            assume tha tit is in meters.
+            assume that it is in meters.
         """
         first_operand = self.length_in_meters()
         if isinstance(other, Length):
@@ -72,7 +72,7 @@ class Length:
         elif isinstance(other, int) or isinstance(other, float):
             second_operand = Length(other).length_in_meters()
         else:
-            raise TypeError("Inappropriate type of other argument!")
+            raise TypeError("Inappropriate type of right operand argument!")
         return Length(first_operand - second_operand, True)
     
     def __rsub__(self, left_operand):
@@ -83,7 +83,7 @@ class Length:
         if isinstance(left_operand, int) or isinstance(left_operand, float):
             second_operand = Length(left_operand).length_in_meters()
         else:
-            raise TypeError("Inappropriate type of other argument!")
+            raise TypeError("Inappropriate type of left operand argument!")
         return Length(second_operand - first_operand, True)
     
     def __mul__(self, factor):
@@ -93,7 +93,7 @@ class Length:
         first_operand = self.length_in_meters()
         if isinstance(factor, int) or isinstance(factor, float):
             return Length(first_operand * factor, True)
-        raise TypeError("Inappropriate type of other argument!")
+        raise TypeError("Inappropriate type of factor argument!")
         
     
     def __rmul__(self, left_factor):
@@ -104,17 +104,21 @@ class Length:
         if isinstance(left_factor, int) or isinstance(left_factor, float):
             second_operand = Length(left_factor).length_in_meters()
             return Length(first_operand * second_operand, True) 
-        raise TypeError("Inappropriate type of other argument!")
+        raise TypeError("Inappropriate type of left factor argument!")
     
     def __truediv__(self, divisor):
-        if divisor == 0:
+        if divisor != 0 and isinstance(divisor, int):
+            numerator = self.length_in_meters()
+            return Length(numerator / divisor, True)
+        elif divisor == 0:
             raise ZeroDivisionError()
-        pass
-        
-    
+        else:
+            raise TypeError()
 
-if __name__ == '__main__':
-    pass
+
+
+
+
 
 
 
